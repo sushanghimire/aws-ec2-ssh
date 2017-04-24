@@ -1,12 +1,17 @@
-#!/bin/bash -e
+#!/bin/bash -x
+IAM_AUTHORIZED_GROUPS="$1"
+SUDOERSGROUP="$2"
+ASSUMEROLEARN="$3"
+
+echo "IAM_AUTHORIZED_GROUPS: $IAM_AUTHORIZED_GROUPS"
+echo "SUDOERSGROUP: $SUDOERSGROUP"
+echo "ASSUMEROLEARN: $ASSUMEROLEARN"
+
 
 # tmpdir=$(mktemp -d)
-
 # cd "$tmpdir"
-
 # git clone https://github.com/widdix/aws-ec2-ssh.git
-
-cd "aws-ec2-ssh"
+# cd "aws-ec2-ssh"
 
 cp authorized_keys_command.sh /opt/authorized_keys_command.sh
 cp import_users.sh /opt/import_users.sh
@@ -37,9 +42,8 @@ cp import_users.sh /opt/import_users.sh
 sed -i 's:#AuthorizedKeysCommand none:AuthorizedKeysCommand /opt/authorized_keys_command.sh:g' /etc/ssh/sshd_config
 sed -i 's:#AuthorizedKeysCommandUser nobody:AuthorizedKeysCommandUser nobody:g' /etc/ssh/sshd_config
 
-echo "*/10 * * * * root /opt/import_users.sh" > /etc/cron.d/import_users
-chmod 0644 /etc/cron.d/import_users
+# echo "*/10 * * * * root /opt/import_users.sh" > /etc/cron.d/import_users
+# chmod 0644 /etc/cron.d/import_users
 
-/opt/import_users.sh
-
-service sshd restart
+ # /opt/import_users.sh
+ # service sshd restart
