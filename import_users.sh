@@ -1,11 +1,11 @@
-#!/bin/bash -e
+#!/bin/bash -x
 
 # Which IAM groups have access to this instance
 # Comma seperated list of IAM groups. Leave empty for all available IAM users
 IAM_AUTHORIZED_GROUPS=""
 
 # Special group to mark users as being synced by our script
-LOCAL_MARKER_GROUP="iam-synced-users"
+LOCAL_MARKER_GROUP=""
 
 # Give the users these local UNIX groups
 LOCAL_GROUPS=""
