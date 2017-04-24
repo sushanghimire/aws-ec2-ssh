@@ -14,26 +14,17 @@ echo "ASSUMEROLE: $ASSUMEROLE"
 
 
 
-# tmpdir=$(mktemp -d)
-# cd "$tmpdir"
-# git clone https://github.com/widdix/aws-ec2-ssh.git
-# cd "aws-ec2-ssh"
-
-cp authorized_keys_command.sh /opt/authorized_keys_command.sh
-cp import_users.sh /opt/import_users.sh
-
-
 # To control which users are imported/synced, uncomment the line below
 # changing GROUPNAMES to a comma seperated list of IAM groups you want to sync.
 # You can specify 1 or more groups, comma seperated, without spaces.
 # If you leave it blank, all IAM users will be synced.
-sed -i "s/IAM_AUTHORIZED_GROUPS=\"\"/IAM_AUTHORIZED_GROUPS=\"$IAM_AUTHORIZED_GROUPS\"/" /opt/import_users.sh
+sed -i "s/IAM_AUTHORIZED_GROUPS=\"\"/IAM_AUTHORIZED_GROUPS=\"$IAM_AUTHORIZED_GROUPS\"/" import_users.sh
 
 # To control which users are given sudo privileges, uncomment the line below
 # changing GROUPNAME to either the name of the IAM group for sudo users, or
 # to ##ALL## to give all users sudo access. If you leave it blank, no users will
 # be given sudo access.
-sed -i "s/SUDOERSGROUP=\"\"/SUDOERSGROUP=\"$SUDOERSGROUP\"/" /opt/import_users.sh
+sed -i "s/SUDOERSGROUP=\"\"/SUDOERSGROUP=\"$SUDOERSGROUP\"/" import_users.sh
 
 # To control which local groups a user will get, uncomment the line belong
 # changing GROUPNAMES to a comma seperated list of local UNIX groups.
@@ -46,13 +37,18 @@ sed -i "s/SUDOERSGROUP=\"\"/SUDOERSGROUP=\"$SUDOERSGROUP\"/" /opt/import_users.s
 #sed -i 's/ASSUMEROLE=""/ASSUMEROLE="ASSUMEROLEARN"/' /opt/import_users.sh
 #sed -i 's/ASSUMEROLE=""/ASSUMEROLE="ASSUMEROLEARN"/' /opt/authorized_keys_command.sh
 
-sed -i "s/LOCAL_GROUPS=\"\"/LOCAL_GROUPS=\"$LOCAL_GROUPS\"/" /opt/import_users.sh
-sed -i "s/LOCAL_MARKER_GROUP=\"\"/LOCAL_MARKER_GROUP=\"$LOCAL_MARKER_GROUP\"/" /opt/import_users.sh
+sed -i "s/LOCAL_GROUPS=\"\"/LOCAL_GROUPS=\"$LOCAL_GROUPS\"/" import_users.sh
+sed -i "s/LOCAL_MARKER_GROUP=\"\"/LOCAL_MARKER_GROUP=\"$LOCAL_MARKER_GROUP\"/" import_users.sh
 
 
 
 sed -i 's:#AuthorizedKeysCommand none:AuthorizedKeysCommand /opt/authorized_keys_command.sh:g' /etc/ssh/sshd_config
 sed -i 's:#AuthorizedKeysCommandUser nobody:AuthorizedKeysCommandUser nobody:g' /etc/ssh/sshd_config
+
+
+cp authorized_keys_command.sh /opt/authorized_keys_command.sh
+cp import_users.sh /opt/import_users.sh
+
 
 # echo "*/10 * * * * root /opt/import_users.sh" > /etc/cron.d/import_users
 # chmod 0644 /etc/cron.d/import_users
