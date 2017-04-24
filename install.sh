@@ -1,5 +1,8 @@
 #!/bin/bash -x
 
+# sample run command
+# sh install.sh "ec2-admin,ec2-testers,ec2-readonly" "ec2-admin" "" "iam-synced-users"
+
 IAM_AUTHORIZED_GROUPS="$1"
 SUDOERSGROUP="$2"
 LOCAL_GROUPS="$3"
@@ -53,5 +56,5 @@ cp import_users.sh /opt/import_users.sh
 # echo "*/10 * * * * root /opt/import_users.sh" > /etc/cron.d/import_users
 # chmod 0644 /etc/cron.d/import_users
 
-# /opt/import_users.sh
-# service sshd restart
+/opt/import_users.sh
+service sshd restart
