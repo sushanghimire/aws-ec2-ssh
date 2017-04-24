@@ -1,12 +1,12 @@
 #!/bin/bash -e
 
-tmpdir=$(mktemp -d)
+# tmpdir=$(mktemp -d)
 
-cd "$tmpdir"
+# cd "$tmpdir"
 
-git clone https://github.com/widdix/aws-ec2-ssh.git
+# git clone https://github.com/widdix/aws-ec2-ssh.git
 
-cd "$tmpdir/aws-ec2-ssh"
+cd "aws-ec2-ssh"
 
 cp authorized_keys_command.sh /opt/authorized_keys_command.sh
 cp import_users.sh /opt/import_users.sh
